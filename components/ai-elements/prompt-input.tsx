@@ -27,6 +27,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { nanoid } from "nanoid";
+import Image from "next/image";
 import {
   type ChangeEventHandler,
   Children,
@@ -63,11 +64,9 @@ export const usePromptInputAttachments = () => {
 
   if (!context) {
     throw new Error(
-<<<<<<< HEAD
-      "usePromptInputAttachments must be used within a PromptInput"
-=======
+
       "usePromptInputAttachments must be used within a PromptInput",
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
     );
   }
 
@@ -93,13 +92,14 @@ export function PromptInputAttachment({
       {...props}
     >
       {data.mediaType?.startsWith("image/") && data.url ? (
-        <img
-          alt={data.filename || "attachment"}
-          className="size-full rounded-md object-cover"
-          height={56}
-          src={data.url}
-          width={56}
-        />
+        <Image
+  alt={data.filename || "attachment"}
+  className="size-full rounded-md object-cover"
+  height={56}
+  src={data.url}
+  width={56}
+  unoptimized
+/>
       ) : (
         <div className="flex size-full items-center justify-center text-muted-foreground">
           <PaperclipIcon className="size-4" />
@@ -153,11 +153,9 @@ export function PromptInputAttachments({
       aria-live="polite"
       className={cn(
         "overflow-hidden transition-[height] duration-200 ease-out",
-<<<<<<< HEAD
-        className
-=======
+
         className,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
       )}
       style={{ height: attachments.files.length ? height : 0 }}
       {...props}
@@ -220,11 +218,9 @@ export type PromptInputProps = Omit<
   }) => void;
   onSubmit: (
     message: PromptInputMessage,
-<<<<<<< HEAD
-    event: FormEvent<HTMLFormElement>
-=======
+
     event: FormEvent<HTMLFormElement>,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
   ) => void;
 };
 
@@ -268,11 +264,9 @@ export const PromptInput = ({
       }
       return true;
     },
-<<<<<<< HEAD
-    [accept]
-=======
+
     [accept],
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
   );
 
   const add = useCallback(
@@ -322,11 +316,9 @@ export const PromptInput = ({
         return prev.concat(next);
       });
     },
-<<<<<<< HEAD
-    [matchesAccept, maxFiles, maxFileSize, onError]
-=======
+
     [matchesAccept, maxFiles, maxFileSize, onError],
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
   );
 
   const remove = useCallback((id: string) => {
@@ -438,11 +430,9 @@ export const PromptInput = ({
       openFileDialog,
       fileInputRef: inputRef,
     }),
-<<<<<<< HEAD
-    [items, add, remove, clear, openFileDialog]
-=======
+
     [items, add, remove, clear, openFileDialog],
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
   );
 
   return (
@@ -459,11 +449,9 @@ export const PromptInput = ({
       <form
         className={cn(
           "w-full divide-y overflow-hidden rounded-xl border bg-background shadow-sm",
-<<<<<<< HEAD
-          className
-=======
+
           className,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
         )}
         onSubmit={handleSubmit}
         {...props}
@@ -517,11 +505,9 @@ export const PromptInputTextarea = ({
         "field-sizing-content bg-transparent dark:bg-transparent",
         "max-h-48 min-h-16",
         "focus-visible:ring-0",
-<<<<<<< HEAD
-        className
-=======
+
         className,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
       )}
       name="message"
       onChange={(e) => {
@@ -556,11 +542,9 @@ export const PromptInputTools = ({
     className={cn(
       "flex items-center gap-1",
       "[&_button:first-child]:rounded-bl-xl",
-<<<<<<< HEAD
-      className
-=======
+
       className,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
     )}
     {...props}
   />
@@ -583,12 +567,8 @@ export const PromptInputButton = ({
         "shrink-0 gap-1.5 rounded-lg",
         variant === "ghost" && "text-muted-foreground",
         newSize === "default" && "px-3",
-<<<<<<< HEAD
-        className
-=======
-        className,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
-      )}
+
+        className,      )}
       size={newSize}
       type="button"
       variant={variant}
@@ -692,12 +672,10 @@ export const PromptInputModelSelectTrigger = ({
   <SelectTrigger
     className={cn(
       "border-none bg-transparent font-medium text-muted-foreground shadow-none transition-colors",
-      'hover:bg-accent hover:text-foreground [&[aria-expanded="true"]]:bg-accent [&[aria-expanded="true"]]:text-foreground',
-<<<<<<< HEAD
-      className
-=======
+      'hover:bg-accent hover:text-foreground `aria-expanded:bg-accent`',
+
       className,
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
+
     )}
     {...props}
   />
@@ -732,8 +710,5 @@ export const PromptInputModelSelectValue = ({
   ...props
 }: PromptInputModelSelectValueProps) => (
   <SelectValue className={cn(className)} {...props} />
-<<<<<<< HEAD
+
 );
-=======
-);
->>>>>>> ec9d360dc94ec0716f84b7bcf01dc8e634105a4e
