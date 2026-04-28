@@ -1,47 +1,63 @@
-// Import OpenAI SDK (we use it to call OpenRouter API)
 import OpenAI from "openai";
 
-// Create client instance
 const client = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1", // OpenRouter endpoint
-  apiKey: process.env.OPENROUTER_API_KEY, //  Your API key from .env
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-// This function runs when frontend sends POST request to /api/chat
+const FREE_MODELS = [
+  "openrouter/free",
+  "meta-llama/llama-3.3-70b-instruct:free",
+  "google/gemma-3-27b-it:free",
+  "deepseek/deepseek-chat:free",
+  "mistralai/mistral-small-3.1-24b-instruct:free",
+];
+
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json(); // Get messages array from frontend request
-    // Frontend sends chat history like:  [{ "role": "user", "content": "What is MERN?" }]
-
-    // Get last user message (latest question)
+    const { messages } = await req.json();
     const lastMessage = messages[messages.length - 1]?.content || "";
-
-    // Placeholder for RAG (we will replace this later)
     const context = "Your retrieved context here";
 
-    // Call OpenRouter LLM
-    const response = await client.responses.create({
-      model: "meta-llama/llama-3-8b-instruct",
-      // prompt start here
-      input: `
-You are a helpful assistant. 
+    const systemPrompt = `You are a helpful assistant. Use the context below to answer the question. If the answer is not in the context, say "I don't know".\n\nContext:\n${context}`;
 
-Use the context below to answer the question.
-If the answer is not in the context, say "I don't know".
+    let lastError: unknown;
 
-Context: 
-${context}
+    for (const model of FREE_MODELS) {
+      try {
+        const response = await client.chat.completions.create({
+          model,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: lastMessage },
+          ],
+        });
 
-Question:
-${lastMessage}
-`,
-    }); // Injects your retrieved data (from DB later)  Adds user's question to prompt
+        const answer = response.choices[0]?.message?.content || "No response";
+        console.log(` Responded using: ${model}`);
+        return Response.json({ message: answer });
+      } catch (err: any) {
+        if (err?.status === 429 || err?.status === 404) {
+          console.warn(` ${model} failed (${err.status}), trying next...`);
+          lastError = err;
+          continue;
+        }
+        throw err;
+      }
+    }
 
-    const answer = response.output_text; // Extract final text response safely
-
-    return Response.json({ message: answer });
+    console.error("All models failed:", lastError);
+    return Response.json(
+      {
+        message: "All models are currently busy. Please try again in a moment.",
+      },
+      { status: 429 },
+    );
   } catch (error) {
     console.error(error);
-    return new Response("Error", { status: 500 });
+    return Response.json(
+      { message: "Something went wrong. Please try again." },
+      { status: 500 },
+    );
   }
 }
