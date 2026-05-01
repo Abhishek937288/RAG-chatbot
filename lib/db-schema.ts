@@ -18,4 +18,4 @@ export const documents = pgTable(
 
 //types exported here
 export type InsertDocument = typeof documents.$inferInsert;
-export type SelectDocument = typeof documents.$inferInsert;
+export type SelectDocument = typeof documents.$inferSelect;

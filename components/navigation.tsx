@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import {
   SignInButton,
@@ -14,7 +15,9 @@ export const Navigation = () => {
   return (
     <nav className="border-b border-foreground/10">
       <div className="flex container h-16 items-center justify-between px-4 mx-auto">
-        <div className="text-xl font-semibold">RAG Chatbot</div>
+        <Link href="/">
+          <div className="text-xl font-semibold">RAG Chatbot</div>
+        </Link>
 
         <div className="flex gap-2">
           {!isSignedIn ? (
@@ -28,9 +31,23 @@ export const Navigation = () => {
               </SignUpButton>
             </>
           ) : (
-            <SignOutButton>
-              <Button variant="outline">Sign Out</Button>
-            </SignOutButton>
+            <>
+              <Link href={"/chat"}>
+                <Button variant="secondary" className="cursor-pointer">
+                  Chat
+                </Button>
+              </Link>
+              <Link href={"/upload"}>
+                <Button variant="secondary" className="cursor-pointer">
+                  upload
+                </Button>
+              </Link>
+              <SignOutButton>
+                <Button variant="outline" className="cursor-pointer">
+                  Sign Out
+                </Button>
+              </SignOutButton>
+            </>
           )}
         </div>
       </div>
