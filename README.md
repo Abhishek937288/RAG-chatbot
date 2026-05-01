@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🤖 RAG Chatbot (Next.js)
 
-## Getting Started
+A simple **Retrieval-Augmented Generation (RAG) Chatbot** built using **Next.js** with free resources.
 
-First, run the development server:
+This project allows users to upload data and ask questions. The chatbot retrieves relevant information from stored data and generates accurate responses using LLMs.
+
+---
+
+## 🚀 Features
+
+* 📄 Upload and process documents (PDF support)
+* 🔍 Semantic search using embeddings
+* 🤖 AI-powered responses (RAG-based)
+* 🔐 Authentication & Authorization using Clerk
+* ⚡ Fast and modern UI with Next.js + React
+* 💸 Built using mostly free resources
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* Next.js 16
+* React 19
+* Tailwind CSS
+* shadcn/ui
+
+### Backend / Logic
+
+* Next.js API routes
+* Drizzle ORM
+* Neon Database (PostgreSQL)
+
+### AI & RAG
+
+* Embeddings: Hugging Face
+* LLM Responses: OpenRouter
+* Text Splitting: LangChain
+
+### Auth
+
+* Clerk
+
+---
+
+## 🧠 How It Works (Simple Flow)
+
+1. User uploads a document (PDF)
+2. Text is extracted and split into chunks
+3. Each chunk is converted into embeddings (vector format)
+4. Embeddings are stored in the database
+5. User asks a question
+6. Relevant chunks are retrieved using similarity search
+7. Context + question is sent to LLM (OpenRouter)
+8. Final answer is generated and shown to user
+
+---
+
+## 📦 Installation
+
+```bash
+git clone <your-repo-url>
+cd rag-chatbot
+npm install
+```
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env.local` file and add:
+
+```env
+# Clerk Auth
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+# OpenRouter
+OPENROUTER_API_KEY=
+
+# Hugging Face
+HUGGINGFACE_API_KEY=
+
+# Database (Neon / PostgreSQL)
+DATABASE_URL=
+```
+
+---
+
+## ▶️ Run the Project
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will run on:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📁 Project Structure (Basic)
 
-To learn more about Next.js, take a look at the following resources:
+```
+/app            → Next.js app router
+/components     → UI components
+/lib            → helpers (embeddings, db, etc.)
+/db             → schema & config (Drizzle)
+/api            → backend routes
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📚 Key Dependencies
 
-## Deploy on Vercel
+* `next`, `react`
+* `@clerk/nextjs`
+* `@huggingface/inference`
+* `drizzle-orm`
+* `@langchain/textsplitters`
+* `openai` (used via OpenRouter)
+* `pdfjs-dist`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚠️ Notes
+
+* This project uses **free-tier APIs**, so:
+
+  * Rate limits may apply
+  * Response speed may vary
+* OpenAI package is used, but requests are routed through OpenRouter
+
+---
+
+## 🎯 Future Improvements
+
+* Add chat history
+* Better UI/UX
+* Support for multiple file types
+* Streaming responses
+* Vector DB (like Pinecone / Supabase)
+
+---
+
+## 🙌 Conclusion
+
+This is a beginner-friendly RAG chatbot project built with modern tools.
+Great for learning how real-world AI apps work.
+
+---
+
+## 📌 Author
+
+Abhishek
